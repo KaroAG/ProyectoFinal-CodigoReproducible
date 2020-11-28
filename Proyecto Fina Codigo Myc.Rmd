@@ -1,0 +1,59 @@
+---
+title: "Proyecto Final"
+author: "Karol Aguilar"
+date: "27/11/2020"
+output: html_document
+---
+
+```{r, echo=FALSE}
+
+setwd("C:/Users/Karol-PC/Desktop/ProyectoFinal-CodigoReproducible/Proyecto final")
+
+DatosSW620<- read.csv("CSV_SW620-formato-largo.csv")
+
+DatosSW620
+
+# Variables
+
+# Tratamiento
+#1 = anti-miARNs
+#0 = control
+
+# Condición
+#1 = todas las células
+#0 = células muertas
+
+# Tiempo
+#1 = 0 horas 
+#2 = 12 horas
+#3 = 24 horas
+#4 = 36 horas
+#5 = 48 horas
+#6 = 60 horas
+#7 = 72 horas 
+
+```
+ 
+# Validación experimental del fenómeno de compensación de dosis génica del oncogén MYC en líneas celulares de cáncer de colón aneuploide del panel NCI-60.
+
+## Comprobación de la citotoxicidad mediada por los anti-miARNs
+
+## DAG
+
+```{r}
+
+library(dagitty)
+library(ggdag)
+library(wesanderson)
+
+CompensacionMyc <- dagify (miR17~Myc
+                           mir19a~Myc
+                           mir20a~Myc
+                           outcome = "Myc")
+
+#Error: unexpected symbol in:
+#"CompensacionMyc <- dagify (A~Y
+#                           B"????????????????????
+
+```
+
