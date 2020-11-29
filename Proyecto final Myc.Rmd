@@ -3,6 +3,7 @@ title: "Proyecto Final"
 author: "Karol Aguilar"
 date: "27/11/2020"
 output: html_document
+bibliography: library.bib
 ---
 
 ```{r, echo=FALSE}
@@ -36,7 +37,48 @@ DatosSW620
  
 # Validación experimental del fenómeno de compensación de dosis génica del oncogén MYC en líneas celulares de cáncer de colón aneuploide del panel NCI-60.
 
-## Comprobación de la citotoxicidad mediada por los anti-miARNs
+Según datos de la Oganización  Mundial de la Salud (OMS), el cáncer se colocado como la segunda causa a nivel mundial con un estimado de casi 10 millones de muertes para el 2018 y 18.1 millones de personas diagnósticadas con este padecimiento.
+
+El cáncer define como un grupo o conjunto de enfermedades que se caracteriza por tener una progresión de un estado saludable de las células a un estado maligno con patrones de divisiones anormales y capacidad propagativa hacia otros tejidos [@acon-chan] (2018. Plataformas de biología en sistemas para la predicción de microARNs involucrados en redes de regulación de dosis génica en cáncer aneuploide)
+
+De los "hallmarks" o características más prominentes que presenta el cáncer es la inestabilidad genómica se encuentra en relación estrecha con los cariotipos aneuploides de las células cancerígenas [@hanahan;@acon-chan] (6,4). A pesar de las aneuploidias parecen ser incompatibles con la vida en estado germinal y de desarrollo, en células tumorales les confiere ventajas adaptativas, sin embargo, la célula necesita mediar mecanismos compensatorios para no caer en estados proteo/citotoxicos [@Ben-David; @Salmina](7,9)
+
+Se ha hipotetizado que estos mecanismos regulatorios pueden ir desde regulaciones epigenéticas hasta postr-traduccionales. Es por eso que investigadores se han dado la tarea de investigar como oncogenes específicos median una compensación génica por medio de modelos matemáticos generados con herramientas de biología en sistemas. Uno de estos modelos propone que el gen Myc esta compensado por tres miARNs, y por eso a pesar de que su número de genes es alterado a la alza en más de 70% de los cáncer, sus niveles de proteínas se mantienen estables [@acon-chan] (4)
+
+## Diagrama causal
+
+![](DiagramaCausalMyc.JPG)
+
+## Hipótesis del trabajo 
+
+Este proyecto nace a partir de un desarrollo de un conjunto de científicos utilizando herramientas de biología de sistemas, por lo que primero se plantearon tres hipotesis de grupo que fueron encausando la hipotesis final de tesis
+
+![](HipotesisGrupal.jpg)
+![](HipotesisTesis.jpg)
+Por lo que el objetivo radica en: determinar si el bloqueo de los miR17, miR19a y miR20a puede alterar la compensación de dosis génica en el gen Myc ocasionando muerte controlada en células aneuploides de cáncer colorrectal
+
+## Diseño experimental: Comprobación de la citotoxicidad mediada por los anti-miARNs
+
+Para función de este trabajo, se va a validar nada más el objetivo específico 4 del proyecto de tesis (datos disponibles):
+
+![](Objetivo4.jpg)
+### Procedimiento específico seguido para generar los datos para este ejercicio
+
+Se cultivaron las líneas celulares SW620, HT29 y HCT15 a una concentración de 25 000 células por µL, en cada pocillo de placas de 96 pozos con medio RPMI 1640 completo, y se incubaron aproximadamente 18 horas por la noche a 37°C y 5% CO2. Cumplido el tiempo se retiró el medio y se realizó una tinción con 50 µL de colorante fluorescente azul Hoechst (Thermo Fisher) 1/8000 por 10 minutos para teñir el ADN de los núcleos de las células vivas, posteriormente se removió la solución y se realizó un lavado con PBS (Gibco®). Luego, se añadieron 150 µL del colorante fluorescente SYTOX® GREEN (Thermo Fisher) 1/ 20 000, que se caracteriza por ser no permeable en células vivas, lo que lo hace un buen indicador de células muertas, su pico de emisión se encuentra en 523 nm (Thermo Fisher, 2020).
+
+Simultáneamente, se realizó el procedimiento indicado en Lipofectamine® RNAiMAX Transfection Protocol (Thermo Fisher, 2013) para 96 pocillos, y se agregaron posterior a las tinciones con Hoechst y SYTOX® GREEN 10 µL de concentraciones de 5 µM ,10 µM y 20 µM, tanto de control negativo (ThermoFisher mirVanaTM custom miRNA inhibitor) como de una mezcla de anti-miARN 17, 19a y 20a (ThermoFisher), siguiendo una relación de 1 ADN: 3 Lipofectamina, por duplicado para cada condición. Posteriormente se realizó una cinética en el tiempo por 72 horas en el microscopio automatizado de fluorescencia Cytation 3 (BIOTEK), realizando lecturas cada 12 horas en donde se obtuvieron 4 imágenes que representan distintas zonas de los pocillos, por lo que al final de la cinética se obtienen 8 imágenes por cada condición en 7 tiempos distintos
+
+## Resumen del procedimiento 
+
+![](Procedimiento.jpg)
+
+Importante que las tres líneas celulares utilizadas son de cáncer colorrectar y tiene números distintos para la cantidad de copias del gen Myc (son anueploides para el Myc)
+
+### Procesamiento de los datos y análisis estadístico 
+
+Para los análisis estadísticos se procesaron cada una de las imagenes obtenidas a partir del Cytation, con el programa CellProfiler usando un pipeline que buscaba identificar objetos primarios, corrección de la ilumación y la identificación de objetos secundarios para dos canales de color distintos (DAPI y Sytox) se determinaron cuales eran las células totales vs las células muertas.
+
+AL final se aplicó la prueba t-student (separado para cada línea) de cada uno de los tratamientos en función del tiempo para identificar si habian diferencias significativas en los porcentajes de mortalidad de cada una de las líneas celulares en dependencia de la concetración de anti-miARNs que se estaba utilizando
 
 ## DAG
 
@@ -56,3 +98,5 @@ CompensacionMyc <- dagify (miR17~Myc
 #                           B"????????????????????
 
 ```
+
+## Script y código

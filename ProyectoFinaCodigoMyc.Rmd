@@ -7,7 +7,10 @@ output: html_document
 
 ```{r, echo=FALSE}
 
-setwd("C:/Users/Karol-PC/Desktop/ProyectoFinal-CodigoReproducible/Proyecto final")
+if (basename(getwd())=="Code") setwd(normalizePath(".."))
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+#setwd("C:/Users/Karol-PC/Desktop/ProyectoFinal-CodigoReproducible/Proyectofinal")
 
 DatosSW620<- read.csv("CSV_SW620-formato-largo.csv")
 
@@ -56,3 +59,4 @@ CompensacionMyc <- dagify (miR17~Myc
 #                           B"????????????????????
 
 ```
+
