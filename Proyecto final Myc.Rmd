@@ -8,7 +8,7 @@ bibliography: library.bib
 
 ```{r, echo=FALSE}
 
-setwd("C:/Users/Karol-PC/Desktop/ProyectoFinal-CodigoReproducible/Proyecto final")
+setwd("C:/Users/Karol-PC/Desktop/ProyectoFinal-CodigoReproducible")
 
 DatosSW620<- read.csv("CSV_SW620-formato-largo.csv")
 
@@ -100,3 +100,15 @@ CompensacionMyc <- dagify (miR17~Myc
 ```
 
 ## Script y código
+
+```{r}
+#Los datos se van a comparar de manera individual según la concentración de anti-miARNs usada en cada experimento (20uM, 10uM y 5uM)
+
+#Es importante tomar en cuenta que se va a buscar normalizar o extrapolar los datos
+
+#Una vez extrapolados se va a proceder a hacer la comparación de cada uno de los porcentajes de muerte en los tratamientos y los controles a través del tiempo con la ayuda de un gráfico
+
+#Para evidenciar si efectivamente si tienen diferencias estadisticas se procede a hacer un t-student para cada tratamiento (anti-miR/control) en función del tiempo
+
+```
+
