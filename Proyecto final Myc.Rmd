@@ -101,14 +101,65 @@ CompensacionMyc <- dagify (miR17~Myc
 
 ## Script y código
 
-```{r}
-#Los datos se van a comparar de manera individual según la concentración de anti-miARNs usada en cada experimento (20uM, 10uM y 5uM)
+Los datos se van a comparar de manera individual según la concentración de anti-miARNs usada en cada experimento (20uM, 10uM y 5uM)
 
-#Es importante tomar en cuenta que se va a buscar normalizar o extrapolar los datos
+```{r}
+
+#instalar dplyr
+library(dplyr)
+
+#Es importante tomar en cuenta que se va a buscar normalizar o extrapolar los datos.
+
+#Esta extrapolación se hace asumiendo que al tiempo 1 (0 horas) todos los pocillos están a un 100% (ya sea de células vivas o de células muertas, es decir, para ambas condiciones)
+
+#Primero es necesario generar la tablas entre cada una de las concentraciones
+
+Concentracion20 <- DatosSW620 %>% filter(Concentracion == 20)
+Concentracion20
+
+Concentracion10 <- DatosSW620 %>% filter(Concentracion == 10)
+Concentracion10
+
+Concentracion5 <- DatosSW620 %>% filter(Concentracion == 5)
+Concentracion5
+
+```
+
+#### ¡OJO! esta parte de arriba se podría saltar si inserta la tabla ya de una vez dividida por la concentración
+
+#### Continuando:
+
+```{r}
+
+#Entonces se necesita dividir, para cada tratamiento los valores obtenidos en cada tiempo, entre el tiempo uno, por lo que de nuevo se va a generar una tabla más pequeña para cada pseudoreplica
+
+#if tratamiento = 1
+
+PR1 <- Concentracion20 %>% filter(Pseudoreplica. == 1)
+PR2
+
+#¿Se introduce el loop para que divida las pseudoreplicas entre la pseudoreplica en el tiempo uno para normalizar?
+
+#if tratamiento = 1
+#Dividir cada uno de los tiempos entre tiempo 1
+
+#if tratamiento = 0
+#Dividir cada uno de los tiempos entre tiempo 1
+
+#Se hacen por separado porque la normalización es para tratamiento: con anti-miRs y control negativo 
+
+
+#Con los datos extrapolados se saca un promedio de todas las pseudoreplicas para cada tiempo
+
+#mean(...)
+
+#¿Se monta una tabla con los promedios?
 
 #Una vez extrapolados se va a proceder a hacer la comparación de cada uno de los porcentajes de muerte en los tratamientos y los controles a través del tiempo con la ayuda de un gráfico
 
+
 #Para evidenciar si efectivamente si tienen diferencias estadisticas se procede a hacer un t-student para cada tratamiento (anti-miR/control) en función del tiempo
+
 
 ```
 
