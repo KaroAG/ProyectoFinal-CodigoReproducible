@@ -8,11 +8,23 @@ bibliography: library.bib
 
 ```{r, echo=FALSE}
 
-setwd("C:/Users/Karol-PC/Desktop/ProyectoFinal-CodigoReproducible")
+library(knitr)
+opts_knit$set(root.dir = "C:/Users/Karol-PC/Desktop/ProyectoFinal-CodigoReproducible", eval = TRUE, echo = FALSE)
 
-DatosSW620<- read.csv("CSV_SW620-formato-largo.csv")
+#wd<-setwd("C:/Users/Karol-PC/Desktop/ProyectoFinal-CodigoReproducible")
+#getwd()
 
+DatosSW620<- read.csv("CSV_SW620_formato_largo.csv")
 DatosSW620
+
+
+DatosHCT15<- read.csv("CSV_HCT15_formato_largo.csv")
+DatosHCT15
+
+DatosHT29<- read.csv("CSV_HT29_formato_largo.csv")
+DatosHT29
+
+
 
 # Variables
 
@@ -39,13 +51,13 @@ DatosSW620
 
 Según datos de la Oganización  Mundial de la Salud (OMS), el cáncer se colocado como la segunda causa a nivel mundial con un estimado de casi 10 millones de muertes para el 2018 y 18.1 millones de personas diagnósticadas con este padecimiento.
 
-El cáncer define como un grupo o conjunto de enfermedades que se caracteriza por tener una progresión de un estado saludable de las células a un estado maligno con patrones de divisiones anormales y capacidad propagativa hacia otros tejidos [@acon-chan] (2018. Plataformas de biología en sistemas para la predicción de microARNs involucrados en redes de regulación de dosis génica en cáncer aneuploide)
+El cáncer define como un grupo o conjunto de enfermedades que se caracteriza por tener una progresión de un estado saludable de las células a un estado maligno con patrones de divisiones anormales y capacidad propagativa hacia otros tejidos [@ManSaiAcon-Chan2018] 
 
-De los "hallmarks" o características más prominentes que presenta el cáncer es la inestabilidad genómica se encuentra en relación estrecha con los cariotipos aneuploides de las células cancerígenas [@hanahan;@acon-chan] (6,4). A pesar de las aneuploidias parecen ser incompatibles con la vida en estado germinal y de desarrollo, en células tumorales les confiere ventajas adaptativas, sin embargo, la célula necesita mediar mecanismos compensatorios para no caer en estados proteo/citotoxicos [@Ben-David; @Salmina](7,9)
+De los "hallmarks" o características más prominentes que presenta el cáncer es la inestabilidad genómica se encuentra en relación estrecha con los cariotipos aneuploides de las células cancerígenas [@Hanahan2011;@Acon-Chan2018]. A pesar de las aneuploidias parecen ser incompatibles con la vida en estado germinal y de desarrollo, en células tumorales les confiere ventajas adaptativas, sin embargo, la célula necesita mediar mecanismos compensatorios para no caer en estados proteo/citotoxicos [@Ben-David2019; @Salmina2019]
 
-Se ha hipotetizado que estos mecanismos regulatorios pueden ir desde regulaciones epigenéticas hasta postr-traduccionales. Es por eso que investigadores se han dado la tarea de investigar como oncogenes específicos median una compensación génica por medio de modelos matemáticos generados con herramientas de biología en sistemas. Uno de estos modelos propone que el gen Myc esta compensado por tres miARNs, y por eso a pesar de que su número de genes es alterado a la alza en más de 70% de los cáncer, sus niveles de proteínas se mantienen estables [@acon-chan] (4)
+Se ha hipotetizado que estos mecanismos regulatorios pueden ir desde regulaciones epigenéticas hasta postr-traduccionales. Es por eso que investigadores se han dado la tarea de investigar como oncogenes específicos median una compensación génica por medio de modelos matemáticos generados con herramientas de biología en sistemas. Uno de estos modelos propone que el gen Myc esta compensado por tres miARNs, y por eso a pesar de que su número de genes es alterado a la alza en más de 70% de los cáncer, sus niveles de proteínas se mantienen estables [@ManSaiAcon-Chan2018]
 
-## Diagrama causal
+### Diagrama causal
 
 ![](DiagramaCausalMyc.JPG)
 
@@ -57,12 +69,17 @@ Este proyecto nace a partir de un desarrollo de un conjunto de científicos util
 ![](HipotesisTesis.jpg)
 Por lo que el objetivo radica en: determinar si el bloqueo de los miR17, miR19a y miR20a puede alterar la compensación de dosis génica en el gen Myc ocasionando muerte controlada en células aneuploides de cáncer colorrectal
 
+## 1 ¿Cuál es la pregunta específica de investigación?
+
+¿Son los miARNs miR17, miR19a, miR20a, los encargados de mediar la compensación de dósis génica en líneas celulares de cáncer colorectal del panel NCI-60?
+
 ## Diseño experimental: Comprobación de la citotoxicidad mediada por los anti-miARNs
 
 Para función de este trabajo, se va a validar nada más el objetivo específico 4 del proyecto de tesis (datos disponibles):
 
 ![](Objetivo4.jpg)
 ### Procedimiento específico seguido para generar los datos para este ejercicio
+### ¿De dónde vienen los datos?
 
 Se cultivaron las líneas celulares SW620, HT29 y HCT15 a una concentración de 25 000 células por µL, en cada pocillo de placas de 96 pozos con medio RPMI 1640 completo, y se incubaron aproximadamente 18 horas por la noche a 37°C y 5% CO2. Cumplido el tiempo se retiró el medio y se realizó una tinción con 50 µL de colorante fluorescente azul Hoechst (Thermo Fisher) 1/8000 por 10 minutos para teñir el ADN de los núcleos de las células vivas, posteriormente se removió la solución y se realizó un lavado con PBS (Gibco®). Luego, se añadieron 150 µL del colorante fluorescente SYTOX® GREEN (Thermo Fisher) 1/ 20 000, que se caracteriza por ser no permeable en células vivas, lo que lo hace un buen indicador de células muertas, su pico de emisión se encuentra en 523 nm (Thermo Fisher, 2020).
 
@@ -81,6 +98,11 @@ Para los análisis estadísticos se procesaron cada una de las imagenes obtenida
 AL final se aplicó la prueba t-student (separado para cada línea) de cada uno de los tratamientos en función del tiempo para identificar si habian diferencias significativas en los porcentajes de mortalidad de cada una de las líneas celulares en dependencia de la concetración de anti-miARNs que se estaba utilizando
 
 ## DAG
+## ¿Cuáles son las variables relevantes y cuál es su relación, conocida y/o hipotética?
+
+En este caso se pueden evaluar dos tipos de de DAG, el primero relacionado con la hipótesis de la tesis, en donde se cree que los tres miARNs van a regular la compensación de dósis génica de Myc y el segundo específico para el objetivo 4: determinar la citotoxicidad de los anti-miRs para cada una de las tres líneas celulares a traves del tiempo
+
+### DAG de la hipótesis de la tesis
 
 ```{r}
 
@@ -88,18 +110,36 @@ library(dagitty)
 library(ggdag)
 library(wesanderson)
 
-CompensacionMyc <- dagify (miR17~Myc
-                           mir19a~Myc
-                           mir20a~Myc
+CompensacionMyc <- dagify (Myc~miR17,
+                           Myc~miR19a,
+                           Myc~miR20a,
                            outcome = "Myc")
 
-#Error: unexpected symbol in:
-#"CompensacionMyc <- dagify (A~Y
-#                           B"????????????????????
+ggdag(CompensacionMyc, layout = "circle") + theme_dag()
+
+```
+
+### DAG de la comprobación de la citotoxicidad mediada por los anti-miARNs
+
+En este caso debemos de tomar en cuenta, que se utilizaron tres líneas celulares de cáncer colorrectal del panel NCI-60 para el experimento. Estas líneas celulares son aneuploides (tienen una cantidad aberrante de cromosomas en su genoma) para el gen Myc, y poder determinar experimentalmente si la regulación por miARNs es dependiente de la dosis génica, es decir, se espera que aquellas líneas celulas con más copias del gen Myc tengan un porcentaje de mortalidad más alto mediado por los anti-miRs.
+
+Por eso se considera pertinente agregar en el DAG, que la aneuploidia afecta distintivamente cada línea celular, y en consecuencia, si la carga mutacional por aneuploidia es más alta, así va a afectar también la mortalidad de las células. 
+
+```{r}
+
+citotoxicidad <- dagify(Mort~ANEUP,
+                        Mort~LC,
+                        LC~ANEUP,
+                        Mort~AntimiRs,
+                        Mort~Tiempo,
+                        outcome = "Mort")
+
+ggdag(citotoxicidad, layout = "circle") + theme_dag()
 
 ```
 
 ## Script y código
+## Análisis de los datos
 
 Los datos se van a comparar de manera individual según la concentración de anti-miARNs usada en cada experimento (20uM, 10uM y 5uM)
 
@@ -107,6 +147,24 @@ Los datos se van a comparar de manera individual según la concentración de ant
 
 #instalar dplyr
 library(dplyr)
+
+SW620 <-DatosSW620 %>% mutate (Linea_celular = 620)
+SW620 %>% relocate (Linea_celular)
+SW620
+
+HT29 <-DatosHT29 %>% mutate (Linea_celular = 29)
+HT29 %>% relocate (Linea_celular)
+HT29
+
+#Si agrega la columna nueva pero me sale despues de un monton de Xs que dicen NA, ademas, no se si se puede poner el nombre entero: SW620, o se tiene que hacer igual con un ID bien definido, por ahora voy a usar la parte numerica de cada una de las líneas para guiarme
+
+HCT15 <-DatosHCT15 %>% mutate (Linea_celular = 15)
+HCT15 %>% relocate (Linea_celular)
+HCT15
+
+#Necesito que la tabla este en el mismo orde para poder hacer el bindrows
+#Citotoxicidad_TodasLasLineasCelulares <- bind_rows(HCT15,HT29,SW620)
+#write.csv(Citotoxicidad_TodasLasLineasCelulares, File = "DatosProcesadosTotales")
 
 #Es importante tomar en cuenta que se va a buscar normalizar o extrapolar los datos.
 
@@ -136,7 +194,7 @@ Concentracion5
 #if tratamiento = 1
 
 PR1 <- Concentracion20 %>% filter(Pseudoreplica. == 1)
-PR2
+PR1
 
 #¿Se introduce el loop para que divida las pseudoreplicas entre la pseudoreplica en el tiempo uno para normalizar?
 
@@ -163,3 +221,11 @@ PR2
 
 ```
 
+## Interpretación breve de los resultados con respecto a la  pregunta de investigación y la hipótesis causal. Máximo un párrafo
+
+## Parte 6: Información de la sesión
+
+```{r InformacionSesion, echo = FALSE, include = TRUE}
+sI <- sessionInfo()
+sI
+```
