@@ -127,11 +127,11 @@ Por eso se considera pertinente agregar en el DAG, que la aneuploidia afecta dis
 
 ```{r}
 
-citotoxicidad <- dagify(Mort~ANEUP,
-                        Mort~LC,
-                        LC~ANEUP,
-                        Mort~AntimiRs,
+citotoxicidad <- dagify(ANEUP~LC,
                         Mort~Tiempo,
+                        mARN~ANEUP,
+                        mARN~AntimiRs,
+                        Mort~mARN,
                         outcome = "Mort")
 
 ggdag(citotoxicidad, layout = "circle") + theme_dag()
@@ -148,44 +148,65 @@ Los datos se van a comparar de manera individual según la concentración de ant
 #instalar dplyr
 library(dplyr)
 
-SW620 <-DatosSW620 %>% mutate (Linea_celular = 620)
-SW620 %>% relocate (Linea_celular)
+SW620 <- DatosSW620  %>% select(-c(7:20))
+SW620 <-SW620 %>% mutate (Linea_celular = "SW620")
+SW620 <-SW620 %>% relocate (Linea_celular, .before = Anti.miARNs)
 SW620
 
-HT29 <-DatosHT29 %>% mutate (Linea_celular = 29)
-HT29 %>% relocate (Linea_celular)
+HT29 <- DatosHT29  %>% select(-c(7:20))
+HT29 <- HT29 %>% mutate (Linea_celular = "HT29")
+HT29 <- HT29 %>% relocate (Linea_celular)
 HT29
 
-#Si agrega la columna nueva pero me sale despues de un monton de Xs que dicen NA, ademas, no se si se puede poner el nombre entero: SW620, o se tiene que hacer igual con un ID bien definido, por ahora voy a usar la parte numerica de cada una de las líneas para guiarme
-
-HCT15 <-DatosHCT15 %>% mutate (Linea_celular = 15)
-HCT15 %>% relocate (Linea_celular)
+HCT15 <- DatosHCT15 %>% mutate (Linea_celular = "HCT15")
+HCT15 <- HCT15 %>% relocate (Linea_celular)
 HCT15
 
-#Necesito que la tabla este en el mismo orde para poder hacer el bindrows
-#Citotoxicidad_TodasLasLineasCelulares <- bind_rows(HCT15,HT29,SW620)
-#write.csv(Citotoxicidad_TodasLasLineasCelulares, File = "DatosProcesadosTotales")
+#Necesito que la tabla este en el mismo orden para poder hacer el bindrows
+
+Citotoxicidad <- bind_rows(HCT15,HT29,SW620)
+Citotoxicidad
+write.csv(Citotoxicidad, file = "DatosProcesadosTotales.csv", row.names = FALSE, quote = FALSE)
 
 #Es importante tomar en cuenta que se va a buscar normalizar o extrapolar los datos.
 
 #Esta extrapolación se hace asumiendo que al tiempo 1 (0 horas) todos los pocillos están a un 100% (ya sea de células vivas o de células muertas, es decir, para ambas condiciones)
 
-#Primero es necesario generar la tablas entre cada una de las concentraciones
 
-Concentracion20 <- DatosSW620 %>% filter(Concentracion == 20)
-Concentracion20
+Tiempos <- unique(Citotoxicidad$Tiempo)
+Anti.miARNs <- unique(Citotoxicidad$Anti.miARNs)
+Linea.celular <- unique(Citotoxicidad$Linea_celular)
+Replicas <- unique(Citotoxicidad$Replicas.)
+concentracion <- unique(Citotoxicidad$Concentracion)
+Recuento <- unique(Citotoxicidad$Recuento_Celular)
 
-Concentracion10 <- DatosSW620 %>% filter(Concentracion == 10)
-Concentracion10
 
-Concentracion5 <- DatosSW620 %>% filter(Concentracion == 5)
-Concentracion5
+m=1
+
+for (i in 1:length(Linea.celular))    {
+  for (k in 1:length(concentracion))  {
+    for (j in 1:length (Anti.miARNs)) {
+      for (l in 1: length(Recuento))  {
+        for (n in 1:length(Replicas)) {
+    Temp <- Citotoxicidad$Fluorescencia [which(
+      Citotoxicidad$Linea_celular == Linea.celular[i] &
+      Citotoxicidad$Anti.miARNs == Anti.miARNs[j] &
+      Citotoxicidad$Concentracion == concentracion[k] &
+      Citotoxicidad$Recuento_Celular == Recuento[l] &
+      Citotoxicidad$Replicas. == Replicas[n] &
+        Citotoxicidad$Tiempo == Tiempos[1])]  
+     Citotoxicidad$Fluor.Norm[m] <- Citotoxicidad$Fluorescencia[m]/Temp
+     m=m+1
+    }
+    }
+    }
+  }
+}
+
+
 
 ```
 
-#### ¡OJO! esta parte de arriba se podría saltar si inserta la tabla ya de una vez dividida por la concentración
-
-#### Continuando:
 
 ```{r}
 
