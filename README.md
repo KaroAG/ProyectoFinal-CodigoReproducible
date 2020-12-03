@@ -1,9 +1,10 @@
 # ProyectoFinal-CodigoReproducible
 
 Código para el calculo de la Citotoxicidad mediada por anti-miARNs en tres líneas celulares
-SW620
-HCT15
-HT29
+SW620 7 copias de Myc
+HT29 4 copias de Myc
+HCT15 2 copias de Myc
+
 Aneuploides para el gen Myc, donde la hipótesis establece que su compensación de dósis génica podría estar mediada por 3 anti-miRs
 mir17
 mir19a
