@@ -6,7 +6,7 @@ output: html_document
 bibliography: library.bib
 ---
 
-```{r, echo=FALSE}
+```{r, echo=FALSE,eval=TRUE}
 
 library(knitr)
 opts_knit$set(root.dir = "C:/Users/Karol-PC/Desktop/ProyectoFinal-CodigoReproducible", eval = TRUE, echo = FALSE)
@@ -73,8 +73,8 @@ Por lo que el objetivo radica en: determinar si el bloqueo de los miR17, miR19a 
 Para función de este trabajo, se va a validar nada más el objetivo específico 4 del proyecto de tesis (datos disponibles):
 
 ![](Objetivo4.jpg)
-### Procedimiento específico seguido para generar los datos para este ejercicio
-### ¿De dónde vienen los datos?
+###  Procedimiento específico seguido para generar los datos para este ejercicio
+###  ¿De dónde vienen los datos?
 
 Se cultivaron las líneas celulares SW620, HT29 y HCT15 a una concentración de 25 000 células por µL, en cada pocillo de placas de 96 pozos con medio RPMI 1640 completo, y se incubaron aproximadamente 18 horas por la noche a 37°C y 5% CO2. Cumplido el tiempo se retiró el medio y se realizó una tinción con 50 µL de colorante fluorescente azul Hoechst (Thermo Fisher) 1/8000 por 10 minutos para teñir el ADN de los núcleos de las células vivas, posteriormente se removió la solución y se realizó un lavado con PBS (Gibco®). Luego, se añadieron 150 µL del colorante fluorescente SYTOX® GREEN (Thermo Fisher) 1/ 20 000, que se caracteriza por ser no permeable en células vivas, lo que lo hace un buen indicador de células muertas, su pico de emisión se encuentra en 523 nm (Thermo Fisher, 2020).
 
@@ -135,14 +135,13 @@ citotoxicidad <- dagify(ANEUP~LC,
                         Mort~mARN,
                         outcome = "Mort")
 
-ggdag(citotoxicidad, layout = "circle", node_size = 25) + theme_dag()
+ggdag(citotoxicidad, layout = "circle", node_size = 20) + theme_dag()
 
 ```
 
 ## Análisis de los datos
 
 ```{r}
-
 #instalar dplyr
 library(dplyr)
 
@@ -235,7 +234,11 @@ Mod1 <- lm(PorcentajeMort~ Linea_celular*Tratamiento*Tiempo, data=CelulasMuertas
 summary(Mod1)
 
 anova(Mod1)
+```
 
+## Gráficos y figuras
+
+```{r fig.height=10, fig.width=15}
 #Gráfico del procentaje de mortalidad en función del tiempo por cada línea celular
 
 #install.packages("effects")
@@ -257,14 +260,21 @@ plot(Efectos, multiline=TRUE, confint=TRUE, ci.style="bars"
 
 Efectos1 <- Efectos[[1]]
 EfeDF <- as.data.frame(Efectos1)
+library(ggplot2)
 g <- ggplot(EfeDF, aes(x=Tiempo, y=fit,color = Tratamiento, shape = Tratamiento, ymin=lower,ymax=upper)) + geom_pointrange(position=position_dodge(width=.1))
 plot(g)
 ```
 
+Otra opción con los datos y figuras es extrar y usar la tabla "Celulas muertas" y promediar por tiempo para generar gráficos a partir de alguna otra herramientta, para estos datos, por ejemplo, se habia utilizado excel donde se generaron los siguintes gráficos
+
+![](CitotoxcidadSW620.JPG)
+![](CitotoxcidadHT29.JPG)
+![](CitotoxcidadHCT15.JPG)
+
 ## Interpretación breve de los resultados con respecto a la  pregunta de investigación y la hipótesis causal
 #### Máximo un párrafo
 
-Si analizamos nuestros datos desde el ANOVA, lo que vamos a obtener es que existe significancia para todas las variables: línea celular, tratamiento, tiempo y las respectivas interacciones entre estas variables. Es decir, la mortalidad de nuestras celulas, va a ser diferente en cada una de las tres líneas utilizadas, a través del tiempo a concentraciones distintas del anti-miARN.Sin embargo, si nos vamos al modelo linear a evaluar cada una de esas interraciones por separado, lo que se obtiene es que la línea SW620 es la que va a tener significancia con respecto al porcentaje de mortalidad, lo cuál, es lo esperado ya que esta línea de copias es la que tiene un número mayor de copias del gen Myc, por lo que su compensación debe ser mas "estricta" y cualquier disrupcion en esa homeostasis proteica de MYC nos va a llevar a muerte por proteotoxicidad (porque hay muchas copias de Myc, generando mucho mARN para MYC y en consecuencia muchisimas unidades de la proteína MYC). Por otra parte el tiempo se determina como un factor influyente en la mortalidad porque aunque sea poco el desbalance que va a ir produciendo los anti-miARNs, este desequilibrio genera acumulación progresiva del daño y en consecuencia aumenta la mortalidad. Por ultimo, las concentraciones de 20uM y 5uM podrían estar influenciando el porcentaje de mortalidad.
+Si analizamos nuestros datos desde el ANOVA, lo que vamos a obtener es que existe significancia para todas las variables: línea celular, tratamiento, tiempo y las respectivas interacciones entre estas variables. Es decir, la mortalidad de nuestras celulas, va a ser diferente en cada una de las tres líneas utilizadas, a través del tiempo a concentraciones distintas del anti-miARN.Sin embargo, si nos vamos al modelo linear a evaluar cada una de esas interraciones por separado, lo que se obtiene es que la línea SW620 es la que va a tener significancia con respecto al porcentaje de mortalidad, lo cuál, es lo esperado ya que esta línea es la que tiene un número mayor de copias del gen Myc, por lo que su compensación debe ser mas "estricta" y cualquier disrupcion en esa homeostasis proteica de MYC nos va a llevar a muerte por proteotoxicidad (porque hay muchas copias de Myc, generando mucho mARN para MYC y en consecuencia muchisimas unidades de la proteína MYC). Por otra parte el tiempo se determina como un factor influyente en la mortalidad porque aunque sea poco el desbalance que va a ir produciendo por los anti-miARNs, este desequilibrio genera acumulación progresiva del daño y en consecuencia aumenta la mortalidad. Por ultimo, las concentraciones de 20uM y 5uM podrían estar influenciando el porcentaje de mortalidad.
 
 ## Información de la sesión
 
