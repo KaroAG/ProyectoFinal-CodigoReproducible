@@ -20,7 +20,7 @@ DatosHCT15<- read.csv("C:/Users/Usuario/Desktop/ProyectoFinal-CodigoReproducible
 DatosHT29<- read.csv("C:/Users/Usuario/Desktop/ProyectoFinal-CodigoReproducible/Datos/Crudos/CSV_HT29_formato_largo.csv")
 #DatosHT29
 
-# Variables
+#Variables
 
 # Anti.miARNs
 #1 = anti-miARNs
